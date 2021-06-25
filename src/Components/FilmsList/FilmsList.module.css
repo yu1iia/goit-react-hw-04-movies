@@ -1,0 +1,23 @@
+.FilmsList {
+  list-style-type: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.FilmsList_link a {
+  color: #ffffff;
+  text-decoration: none;
+  line-height: 1.25;
+  font-size: 18px;
+}
+.FilmsList_link a:hover {
+  color: red;
+  cursor: pointer;
+}
+.FilmsList_title {
+  font-size: 34px;
+  text-align: center;
+  letter-spacing: 0.25cm;
+  color: red;
+  margin: 15px auto;
+}

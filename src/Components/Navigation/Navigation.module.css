@@ -1,0 +1,20 @@
+.navbar {
+  height: 50px;
+  justify-content: start;
+
+  font-size: 26px;
+}
+.nav_link {
+  font-style: 20px;
+  color: #ffffff;
+  display: inline-block;
+  margin: 15px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.nav_link:hover {
+  text-decoration: underline;
+}
+.active {
+  color: red;
+}

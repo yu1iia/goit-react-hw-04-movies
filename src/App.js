@@ -1,52 +1,41 @@
-import React from 'react';
-import { Route, NavLink, Switch } from 'react-router-dom';
-import Cast from './Components/Cast/Cast';
-import HomePage from './Components/HomePage/HomePage';
-import MovieDetailsPage from './Components/MovieDetailsPage/MovieDetailsPage';
-import MoviesPage from './Components/MoviesPage/MoviesPage';
-import Reviews from './Components/Reviews/Reviews';
+import React, { Component, Suspense, lazy } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import routes from './routes';
 
-const App = () => (
-  <>
-    {/* <ul>
-      <li>
-        <NavLink
-          exact
-          to="/"
-          className="NavLink"
-          activeClassName="NavLink--active"
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/authors"
-          className="NavLink"
-          activeClassName="NavLink--active"
-        >
-          Authors
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/books"
-          className="NavLink"
-          activeClassName="NavLink--active"
-        >
-          Books
-        </NavLink>
-      </li>
-    </ul>
+// Components
+import AppBar from './Components/AppBar/AppBar';
 
-    <Switch>
-      <Route exact path="/" component={HomeView} />
-      <Route path="/authors" component={AuthorsView} />
-      <Route exact path="/books" component={BooksView} />
-      <Route path="/books/:bookId" component={BookDetailsView} />
-      <Route component={NotFoundView} />
-    </Switch> */}
-  </>
-);
+const HomePage = lazy(() => import('./Pages/HomePage'));
+
+const MoviesPage = lazy(() => import('./Pages/MoviesPage'));
+
+const MovieDetailsPage = lazy(() => import('./Pages/MovieDetailsPage'));
+
+class App extends Component {
+  state = {};
+
+  render() {
+    return (
+      <div className="App">
+        <AppBar />
+
+        <Suspense fallback={<h2>Loading...</h2>}>
+          <Switch>
+            {/* Home Page */}
+            <Route exact path={routes.home} component={HomePage} />
+
+            {/* Movies Page ,  MovieDetails Page  */}
+            <Route exact path={routes.movies} component={MoviesPage} />
+
+            <Route path={routes.movieDetails} component={MovieDetailsPage} />
+
+            {/* страница по умолчанию, куда перенаправить в случае, если такого адреса не имеется */}
+            <Redirect to="/" />
+          </Switch>
+        </Suspense>
+      </div>
+    );
+  }
+}
 
 export default App;
