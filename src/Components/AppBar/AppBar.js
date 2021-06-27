@@ -1,14 +1,10 @@
-import React from 'react';
+import Navigation from '../Navigation';
+import styles from './AppBar.module.css';
 
-// Components
-import Navigation from '../Navigation/Navigation';
-
-const AppBar = () => {
+export default function Appbar() {
   return (
-    <header>
+    <header className={styles.header}>
       <Navigation />
     </header>
   );
-};
-
-export default AppBar;
+}

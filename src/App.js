@@ -1,41 +1,70 @@
-import React, { Component, Suspense, lazy } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import routes from './routes';
+import { lazy, Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader from 'react-loader-spinner';
+import Container from './components/Container';
 
-// Components
-import AppBar from './Components/AppBar/AppBar';
+const AppBar = lazy(() =>
+  import('./components/AppBar' /* webpackChunkName: "app-bar" */),
+);
 
-const HomePage = lazy(() => import('./Pages/HomePage'));
+const HomeView = lazy(() =>
+  import('./views/HomeView' /* webpackChunkName: "home-view" */),
+);
 
-const MoviesPage = lazy(() => import('./Pages/MoviesPage'));
+const MoviesView = lazy(() =>
+  import('./views/MoviesView' /* webpackChunkName: "mvies-view" */),
+);
 
-const MovieDetailsPage = lazy(() => import('./Pages/MovieDetailsPage'));
+const HomeSubView = lazy(() =>
+  import('./views/HomeSubView' /* webpackChunkName: "home-sub-view" */),
+);
 
-class App extends Component {
-  state = {};
+const NotFoundView = lazy(() =>
+  import('./views/NotFoundView' /* webpackChunkName: "not-found-view" */),
+);
 
-  render() {
-    return (
-      <div className="App">
+function App() {
+  return (
+    <Container>
+      <Suspense
+        fallback={
+          <div style={{ textAlign: 'center', marginTop: '80px' }}>
+            <Loader
+              type="Circles"
+              color="#00BFFF"
+              height={100}
+              width={100}
+              timeout={3000} //3 secs
+            />
+          </div>
+        }
+      >
         <AppBar />
 
-        <Suspense fallback={<h2>Loading...</h2>}>
-          <Switch>
-            {/* Home Page */}
-            <Route exact path={routes.home} component={HomePage} />
+        <Switch>
+          <Route path="/" exact>
+            <HomeView />
+          </Route>
 
-            {/* Movies Page ,  MovieDetails Page  */}
-            <Route exact path={routes.movies} component={MoviesPage} />
+          <Route path="/movies" exact>
+            <MoviesView />
+          </Route>
 
-            <Route path={routes.movieDetails} component={MovieDetailsPage} />
+          <Route path="/movies/:moviesId">
+            <HomeSubView />
+          </Route>
 
-            {/* страница по умолчанию, куда перенаправить в случае, если такого адреса не имеется */}
-            <Redirect to="/" />
-          </Switch>
-        </Suspense>
-      </div>
-    );
-  }
+          <Route>
+            <NotFoundView />
+          </Route>
+        </Switch>
+      </Suspense>
+
+      <ToastContainer autoClose={3000} />
+    </Container>
+  );
 }
 
 export default App;
