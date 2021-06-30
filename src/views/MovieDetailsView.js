@@ -21,7 +21,7 @@ const ReviewsView = lazy(() =>
   import('./ReviewsView' /* webpackChunkName: "review-view" */),
 );
 
-export default function MovieDetailsPage() {
+export default function MovieDetailsView() {
   const { url, path } = useRouteMatch();
   const { moviesId } = useParams();
   const location = useLocation();
